@@ -1,0 +1,17 @@
+syntax = "proto3";
+package quotechain.quotechain;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "quotechain/quotechain/params.proto";
+
+option go_package = "quotechain/x/quotechain/types";
+
+// GenesisState defines the quotechain module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}

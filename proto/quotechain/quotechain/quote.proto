@@ -1,0 +1,12 @@
+syntax = "proto3";
+package quotechain.quotechain;
+
+option go_package = "quotechain/x/quotechain/types";
+
+message Quote {
+  
+  string phrase = 1; 
+  string author = 2; 
+  string creator = 3; 
+  uint64 id = 4; 
+}
