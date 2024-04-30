@@ -21,10 +21,8 @@ func (k Keeper) AppendQuote(ctx sdk.Context, quote types.Quote) uint64 {
     
     num := k.GetQuoteNum(ctx)
     quote.Id = num
-    storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-    store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.QuoteNumKey))
-    NewValues := k.cdc.MustMarshal(&quote)
-    store.Set(GetQuoteIDBytes(quote.Id), NewValues)
+    k.SetQuote(ctx, quote)
+    k.SetQuoteNum(ctx, num+1) 
     return num
 }
 
@@ -52,6 +50,13 @@ func (k Keeper) SetQuoteNum(ctx sdk.Context, num uint64) {
     binary.BigEndian.PutUint64(bz, num)
     store.Set(byteKey, bz)
 }
+
+func (k Keeper) SetQuote(ctx sdk.Context, post types.Quote) {
+    storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+    store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.QuoteNumKey))
+    b := k.cdc.MustMarshal(&post)
+    store.Set(GetQuoteIDBytes(post.Id), b)
+    }
 
 
 
